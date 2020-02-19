@@ -1,0 +1,51 @@
+<?php
+
+use Drupal\views\Views;
+
+/**
+ * Implements hook_theme().
+ *
+ */
+function zorn_theme($existing, $type, $theme, $path) {
+	$current_path = \Drupal::service('path.current')->getPath();
+	$theme = [];
+	if ($current_path == '/node/4405') {
+		$theme = array(
+			'node__article' => array(
+				'template' => 'node--zorn',
+				'base hook' => 'node',
+			),
+		);	
+	}
+	
+	return $theme;
+}
+
+/**
+ * Get view
+ *
+ */
+function zorn_get_view() {
+	$view = Views::getView('cps_program_er');
+	$view->execute();
+	
+	$result = [];
+	foreach($view->result as $row){
+		$result[] = $row->_entity->title->value;
+	}
+	return $result;	
+}
+
+
+/**
+ * Implements hook_preprocess_node().
+ *
+ */
+function zorn_preprocess_node(&$variables) {
+	$node = $variables['node'];
+	$current_path = \Drupal::service('path.current')->getPath();
+	if ($node->getType() == 'article' && $current_path == '/node/4405') {
+		$variables['test_var'] = zorn_get_view();
+	}
+}
+

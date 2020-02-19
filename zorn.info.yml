@@ -1,0 +1,5 @@
+name: Zorn
+type: module
+description: "A module to test twig template vars"
+core: 8.x
+package: 'Custom'

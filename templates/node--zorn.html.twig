@@ -1,0 +1,6 @@
+<h3>Title</h3>
+<ul>
+    {% for key, user in test_var %}
+        <li>{{ key }}: {{ user|e }}</li>
+    {% endfor %}
+</ul>
